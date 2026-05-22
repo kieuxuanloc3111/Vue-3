@@ -303,7 +303,7 @@ a {
 
 .page-content label {
   display: inline-flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
   margin: 5px 0;
   color: #334155;
@@ -312,7 +312,86 @@ a {
 .page-content input[type="radio"] {
   width: 16px;
   min-height: 16px;
+  margin-top: 4px;
   accent-color: #146c94;
+}
+
+.rich-content {
+  max-width: 100%;
+  color: #1f2937;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.rich-content p {
+  margin: 0 0 10px;
+}
+
+.rich-content p:last-child {
+  margin-bottom: 0;
+}
+
+.rich-content img {
+  display: block;
+  max-width: 100%;
+  height: auto !important;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.rich-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+.rich-content iframe,
+.rich-content video {
+  max-width: 100%;
+}
+
+.rich-content .math,
+.rich-content .katex,
+.rich-content .MathJax,
+.rich-content mjx-container {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.question-content {
+  margin-bottom: 16px;
+  color: #20364f;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.question-heading {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  border-radius: 8px;
+  background: #e9f4fb;
+  color: #0f5777;
+  padding: 0 12px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.answer-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.answer-content img {
+  max-height: 220px;
+}
+
+.explanation-content {
+  display: block;
+  margin-top: 8px;
 }
 
 .remember-field {
@@ -380,6 +459,15 @@ a {
   flex: 0 0 64px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.empty-state {
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 20px;
+  color: #607086;
+  font-weight: 700;
 }
 
 .site-footer {

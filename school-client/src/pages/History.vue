@@ -1,135 +1,154 @@
 <script setup>
-
-import {
-    ref,
-    onMounted
-} from "vue";
-
-import {
-    useRouter
-} from "vue-router";
-
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import api from "../services/api";
-import {
-    useAuthStore
-} from "../stores/auth";
+import { useAuthStore } from "../stores/auth";
 
 const router = useRouter();
 const authStore = useAuthStore();
 
 const histories = ref([]);
 
-/*
-|--------------------------------------------------------------------------
-| LOAD HISTORY
-|--------------------------------------------------------------------------
-*/
+const getExamTitle = (history) => {
+    return history.exam_title || history.exam?.title || "Chưa có tên đề thi";
+};
+
+const getSubjectName = (history) => {
+    return history.subject || history.exam?.subject?.name || "Chưa có môn học";
+};
+
+const getStatus = (history) => {
+    if (history.status === "submitted" || history.submitted_at) {
+        return "Đã nộp bài";
+    }
+
+    return history.status || "Chưa có trạng thái";
+};
+
+const normalizeApiDate = (date) => {
+    if (typeof date !== "string") {
+        return date;
+    }
+
+    const hasTimezone =
+        /z$/i.test(date) ||
+        /[+-]\d{2}:\d{2}$/.test(date);
+
+    if (hasTimezone) {
+        return date;
+    }
+
+    return `${date.replace(" ", "T")}Z`;
+};
+
+const formatDate = (date) => {
+    if (!date) {
+        return "Chưa có thời gian";
+    }
+
+    return new Date(normalizeApiDate(date))
+        .toLocaleString(
+            "vi-VN",
+            {
+                timeZone: "Asia/Ho_Chi_Minh",
+                hour12: false,
+            }
+        );
+};
 
 const loadHistory = async () => {
-
     try {
-
-        const response =
-            await api.get(
-
-                "/student/history",
-
-                {
-                    headers: {
-                        Authorization:
-                            `Bearer ${authStore.token}`,
-                    },
-                }
-            );
+        const response = await api.get(
+            "/student/history",
+            {
+                headers: {
+                    Authorization:
+                        `Bearer ${authStore.token}`,
+                },
+            }
+        );
 
         histories.value =
             response.data.data;
-
     } catch (error) {
-
         console.log(error);
-
         alert("Load history failed");
     }
 };
 
-/*
-|--------------------------------------------------------------------------
-| GO REVIEW
-|--------------------------------------------------------------------------
-*/
-
 const goReview = (id) => {
-
-    router.push(
-        `/review/${id}`
-    );
+    router.push(`/review/${id}`);
 };
 
 onMounted(() => {
-
     loadHistory();
 });
-
 </script>
 
 <template>
-
     <div>
-
         <h1>
             Lịch sử làm bài
         </h1>
 
         <div
-            v-for="history in histories"
-            :key="history.id"
+            v-if="histories.length === 0"
+            class="empty-state"
+        >
+            Chưa có bài thi đã nộp.
+        </div>
 
+        <div
+            v-for="history in histories"
+            :key="
+                history.student_exam_id ||
+                history.id
+            "
             style="
                 border:1px solid #ccc;
                 padding:20px;
                 margin-bottom:20px;
             "
         >
-
             <h2>
-                {{ history.exam?.title }}
+                {{ getExamTitle(history) }}
             </h2>
 
             <p>
-                Môn:
-                {{ history.exam?.subject?.name }}
+                <strong>Môn:</strong>
+                {{ getSubjectName(history) }}
             </p>
 
             <p>
-                Điểm:
+                <strong>Điểm:</strong>
                 {{ history.score }}
             </p>
 
             <p>
-                Số câu đúng:
+                <strong>Số câu đúng:</strong>
                 {{ history.correct_count }}
             </p>
 
             <p>
-                Trạng thái:
-                {{ history.status }}
+                <strong>Trạng thái:</strong>
+                {{ getStatus(history) }}
+            </p>
+
+            <p>
+                <strong>Thời gian nộp:</strong>
+                {{ formatDate(history.submitted_at) }}
             </p>
 
             <button
                 @click="
-                        goReview(
-                            history.student_exam_id
-                        )
+                    goReview(
+                        history.student_exam_id ||
+                        history.id
+                    )
                 "
             >
-
                 Xem chi tiết
-
             </button>
-
         </div>
-
     </div>
-
 </template>

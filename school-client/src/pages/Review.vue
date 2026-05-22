@@ -73,7 +73,7 @@ onMounted(() => {
         </h3>
 
         <div
-            v-for="question in review.questions"
+            v-for="(question, index) in review.questions"
             :key="question.question_id"
 
             style="
@@ -83,9 +83,14 @@ onMounted(() => {
             "
         >
 
-            <h3>
-                {{ question.content }}
-            </h3>
+            <div class="question-heading">
+                Câu {{ index + 1 }}
+            </div>
+
+            <div
+                class="rich-content question-content"
+                v-html="question.content"
+            />
 
             <div
                 v-for="answer in question.answers"
@@ -113,8 +118,10 @@ onMounted(() => {
                         margin-bottom:5px;
                     "
                 >
-
-                    {{ answer.content }}
+                    <div
+                        class="rich-content answer-content"
+                        v-html="answer.content"
+                    />
 
                 </div>
 
@@ -126,7 +133,10 @@ onMounted(() => {
                     Giải thích:
                 </strong>
 
-                {{ question.explanation }}
+                <span
+                    class="rich-content explanation-content"
+                    v-html="question.explanation"
+                />
 
             </p>
 
