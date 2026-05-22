@@ -5,9 +5,16 @@ from "vue";
 
 import api
 from "../services/api";
+import { useRouter }
+from "vue-router";
 
 const exams = ref([]);
+const router = useRouter();
 
+const startExam = (id) => {
+
+    router.push(`/exams/${id}`);
+};
 const loadExams = async () => {
 
     try {
@@ -77,7 +84,9 @@ onMounted(() => {
                 phút
             </p>
 
-            <button>
+            <button
+                @click="startExam(exam.id)"
+            >
 
                 Bắt đầu thi
 
