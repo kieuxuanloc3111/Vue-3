@@ -1,5 +1,16 @@
 import { defineStore } from "pinia";
 
+const getStoredUser = () => {
+
+    const user =
+        localStorage.getItem("user") ||
+        sessionStorage.getItem("user");
+
+    return user
+        ? JSON.parse(user)
+        : null;
+};
+
 export const useAuthStore =
 defineStore("auth", {
 
@@ -8,29 +19,49 @@ defineStore("auth", {
         token:
             localStorage.getItem(
                 "token"
-            ) || null,
+            ) ||
+            sessionStorage.getItem(
+                "token"
+            ) ||
+            null,
 
-        user:
-            JSON.parse(
-                localStorage.getItem(
-                    "user"
-                )
-            ) || null,
+        user: getStoredUser(),
     }),
 
     actions: {
 
-        setAuth(token, user) {
+        setAuth(token, user, remember = false) {
 
             this.token = token;
             this.user = user;
 
-            localStorage.setItem(
+            localStorage.removeItem(
+                "token"
+            );
+
+            localStorage.removeItem(
+                "user"
+            );
+
+            sessionStorage.removeItem(
+                "token"
+            );
+
+            sessionStorage.removeItem(
+                "user"
+            );
+
+            const storage =
+                remember
+                    ? localStorage
+                    : sessionStorage;
+
+            storage.setItem(
                 "token",
                 token
             );
 
-            localStorage.setItem(
+            storage.setItem(
                 "user",
                 JSON.stringify(user)
             );
@@ -46,6 +77,14 @@ defineStore("auth", {
             );
 
             localStorage.removeItem(
+                "user"
+            );
+
+            sessionStorage.removeItem(
+                "token"
+            );
+
+            sessionStorage.removeItem(
                 "user"
             );
         }

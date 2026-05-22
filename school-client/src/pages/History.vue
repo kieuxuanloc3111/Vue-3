@@ -10,8 +10,12 @@ import {
 } from "vue-router";
 
 import api from "../services/api";
+import {
+    useAuthStore
+} from "../stores/auth";
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 const histories = ref([]);
 
@@ -25,11 +29,6 @@ const loadHistory = async () => {
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "token"
-            );
-
         const response =
             await api.get(
 
@@ -38,7 +37,7 @@ const loadHistory = async () => {
                 {
                     headers: {
                         Authorization:
-                            `Bearer ${token}`,
+                            `Bearer ${authStore.token}`,
                     },
                 }
             );

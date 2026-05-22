@@ -8,19 +8,18 @@ from "vue-router";
 
 import api
 from "../services/api";
+import {
+    useAuthStore
+} from "../stores/auth";
 
 const route = useRoute();
+const authStore = useAuthStore();
 
 const review = ref(null);
 
 const loadReview = async () => {
 
     try {
-
-        const token =
-            localStorage.getItem(
-                "token"
-            );
 
         const response =
             await api.get(
@@ -30,7 +29,7 @@ const loadReview = async () => {
                 {
                     headers: {
                         Authorization:
-                            `Bearer ${token}`,
+                            `Bearer ${authStore.token}`,
                     },
                 }
             );

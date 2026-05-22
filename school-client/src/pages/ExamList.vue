@@ -7,9 +7,12 @@ import api
 from "../services/api";
 import { useRouter }
 from "vue-router";
+import { useAuthStore }
+from "../stores/auth";
 
 const exams = ref([]);
 const router = useRouter();
+const authStore = useAuthStore();
 
 const startExam = (id) => {
 
@@ -19,18 +22,13 @@ const loadExams = async () => {
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "token"
-            );
-
         const response =
             await api.get(
                 "/student/exams",
                 {
                     headers: {
                         Authorization:
-                            `Bearer ${token}`,
+                            `Bearer ${authStore.token}`,
                     },
                 }
             );

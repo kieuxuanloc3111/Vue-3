@@ -12,10 +12,14 @@ import {
 } from "vue";
 
 import api from "../services/api";
+import {
+    useAuthStore
+} from "../stores/auth";
 
 const route = useRoute();
 
 const router = useRouter();
+const authStore = useAuthStore();
 
 /*
 |--------------------------------------------------------------------------
@@ -181,11 +185,6 @@ const loadExam = async () => {
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "token"
-            );
-
         const response =
             await api.post(
 
@@ -196,7 +195,7 @@ const loadExam = async () => {
                 {
                     headers: {
                         Authorization:
-                            `Bearer ${token}`,
+                            `Bearer ${authStore.token}`,
                     },
                 }
             );
@@ -269,11 +268,6 @@ const submitExam = async () => {
 
     try {
 
-        const token =
-            localStorage.getItem(
-                "token"
-            );
-
         const answers = [];
 
         /*
@@ -316,7 +310,7 @@ const submitExam = async () => {
             {
                 headers: {
                     Authorization:
-                        `Bearer ${token}`,
+                        `Bearer ${authStore.token}`,
                 },
             }
         );

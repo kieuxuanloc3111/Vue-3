@@ -14,6 +14,8 @@ const email = ref("");
 
 const password = ref("");
 
+const remember = ref(false);
+
 const authStore = useAuthStore();
 
 const router = useRouter();
@@ -29,12 +31,19 @@ const login = async () => {
                     email: email.value,
                     password:
                         password.value,
+                    remember:
+                        remember.value,
                 }
             );
 
         authStore.setAuth(
-            response.data.token,
-            response.data.user
+            response.data.token ||
+            response.data.data?.token,
+
+            response.data.user ||
+            response.data.data?.user,
+
+            remember.value
         );
 
         router.push("/exams");
@@ -65,6 +74,21 @@ const login = async () => {
             type="password"
             placeholder="Password"
         />
+
+        <br /><br />
+
+        <label class="remember-field">
+
+            <input
+                v-model="remember"
+                type="checkbox"
+            />
+
+            <span>
+                Remember me
+            </span>
+
+        </label>
 
         <br /><br />
 
