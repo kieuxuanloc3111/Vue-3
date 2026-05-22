@@ -13,6 +13,8 @@ import ExamDoing
 from "../pages/ExamDoing.vue";
 import Review
 from "../pages/Review.vue";
+import History
+from "../pages/History.vue";
 const router = createRouter({
 
     history:
@@ -40,6 +42,10 @@ const router = createRouter({
         {
             path: "/review/:id",
             component: Review,
+        },
+        {
+            path: "/history",
+            component: History,
         },
     ],
 });
