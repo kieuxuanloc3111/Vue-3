@@ -38,21 +38,23 @@ watch(userAvatar, () => {
 
 const logout = () => {
   authStore.logout();
-  router.push("/login");
+  router.push("/");
 };
 </script>
 
 <template>
   <header class="site-header">
-    <RouterLink to="/exams" class="brand">
+    <RouterLink :to="authStore.token ? '/exams' : '/'" class="brand">
       <span class="brand-mark">S</span>
-      <span class="brand-text">School Exam</span>
+      <span class="brand-text">Trường học trực tuyến</span>
     </RouterLink>
 
     <nav class="top-nav" aria-label="Account navigation">
-      <RouterLink to="/register" class="top-link">Register</RouterLink>
+      <RouterLink v-if="!authStore.token" to="/register" class="top-link">
+        Đăng ký
+      </RouterLink>
       <RouterLink v-if="!authStore.token" to="/login" class="top-link primary">
-        Login
+        Đăng nhập
       </RouterLink>
 
       <div v-else class="user-actions">
@@ -68,7 +70,7 @@ const logout = () => {
         </span>
         <span class="user-name">{{ userName }}</span>
         <button type="button" class="top-link primary" @click="logout">
-          Logout
+          Đăng xuất
         </button>
       </div>
     </nav>

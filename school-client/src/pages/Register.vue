@@ -79,13 +79,13 @@ const register = async () => {
             }
         );
 
-        alert("Register success");
+        alert("Đăng ký thành công");
 
         router.push("/login");
 
     } catch (error) {
 
-        alert("Register failed");
+        alert("Đăng ký thất bại");
     }
 };
 
@@ -95,11 +95,11 @@ const register = async () => {
 
     <div>
 
-        <h1>Register</h1>
+        <h1>Đăng ký tài khoản học sinh</h1>
 
         <input
             v-model="name"
-            placeholder="Name"
+            placeholder="Họ và tên"
         />
 
         <br /><br />
@@ -114,7 +114,7 @@ const register = async () => {
         <input
             v-model="password"
             type="password"
-            placeholder="Password"
+            placeholder="Mật khẩu"
         />
 
         <br /><br />
@@ -122,7 +122,7 @@ const register = async () => {
         <label class="upload-field">
 
             <span>
-                Avatar
+                Ảnh đại diện
             </span>
 
             <input
@@ -153,7 +153,7 @@ const register = async () => {
 
         <button @click="register">
 
-            Register
+            Đăng ký
 
         </button>
 

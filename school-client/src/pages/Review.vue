@@ -41,7 +41,7 @@ const loadReview = async () => {
 
         console.log(error);
 
-        alert("Load review failed");
+        alert("Tải kết quả bài thi thất bại");
     }
 };
 

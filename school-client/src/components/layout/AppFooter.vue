@@ -1,6 +1,6 @@
 <template>
   <footer class="site-footer">
-    <span>School Exam Client</span>
-    <span>Vue 3 learning project</span>
+    <span>Hệ thống thi trực tuyến</span>
+    <span>Dành cho học sinh và nhà trường</span>
   </footer>
 </template>

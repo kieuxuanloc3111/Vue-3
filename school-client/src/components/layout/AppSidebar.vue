@@ -15,7 +15,7 @@
     </div>
 
     <div class="sidebar-panel">
-      <p class="panel-title">Student Portal</p>
+      <p class="panel-title">Cổng học sinh</p>
       <p class="panel-text">
         Theo dõi đề thi, làm bài và xem lại kết quả trong cùng một giao diện.
       </p>

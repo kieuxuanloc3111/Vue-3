@@ -167,6 +167,15 @@ a {
   grid-template-columns: 260px minmax(0, 1fr);
 }
 
+.main-layout.no-sidebar {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.main-layout.no-sidebar .page-content {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
 .left-sidebar {
   display: flex;
   flex-direction: column;
@@ -246,6 +255,186 @@ a {
 
 .page-content > div {
   width: 100%;
+}
+
+.home-page {
+  width: 100%;
+}
+
+.home-hero {
+  display: grid;
+  align-items: center;
+  gap: 40px;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  min-height: calc(100vh - 210px);
+}
+
+.home-eyebrow {
+  margin: 0 0 12px;
+  color: #146c94;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.home-copy h1 {
+  max-width: 760px;
+  margin: 0;
+  color: #10243e;
+  font-size: 46px;
+  line-height: 1.12;
+}
+
+.home-description {
+  max-width: 640px;
+  margin: 18px 0 0;
+  color: #607086;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.home-button {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #eef4fb;
+  color: #24425f;
+  padding: 0 18px;
+  font-weight: 900;
+}
+
+.home-button.primary {
+  background: #146c94;
+  color: #ffffff;
+}
+
+.home-visual {
+  min-height: 420px;
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(20, 108, 148, 0.12), rgba(233, 244, 251, 0.9)),
+    #ffffff;
+  padding: 34px;
+}
+
+.school-card {
+  display: flex;
+  height: 100%;
+  min-height: 352px;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 20px 50px rgba(19, 38, 68, 0.12);
+  padding: 22px;
+}
+
+.school-card-header {
+  display: flex;
+  gap: 8px;
+}
+
+.school-card-header span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #146c94;
+}
+
+.school-card-header span:nth-child(2) {
+  background: #7aa6c2;
+}
+
+.school-card-header span:nth-child(3) {
+  background: #d9e8f5;
+}
+
+.school-board {
+  display: grid;
+  gap: 16px;
+  border-radius: 8px;
+  background: #10243e;
+  padding: 28px;
+}
+
+.board-line {
+  height: 14px;
+  width: 72%;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.board-line.wide {
+  width: 100%;
+}
+
+.board-line.short {
+  width: 48%;
+}
+
+.school-stats {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.school-stats div {
+  border-radius: 8px;
+  background: #f0f7fb;
+  padding: 18px;
+}
+
+.school-stats strong,
+.school-stats span {
+  display: block;
+}
+
+.school-stats strong {
+  color: #146c94;
+  font-size: 28px;
+}
+
+.school-stats span {
+  margin-top: 4px;
+  color: #607086;
+  font-weight: 800;
+}
+
+.home-features {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+.home-features article {
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 20px;
+}
+
+.home-features h2 {
+  margin: 0 0 10px;
+  color: #10243e;
+  font-size: 20px;
+}
+
+.home-features p {
+  margin: 0;
+  color: #607086;
+  line-height: 1.6;
 }
 
 .page-content h1 {
@@ -497,6 +686,24 @@ a {
 
   .main-layout {
     grid-template-columns: 1fr;
+  }
+
+  .home-hero,
+  .home-features {
+    grid-template-columns: 1fr;
+  }
+
+  .home-hero {
+    min-height: auto;
+  }
+
+  .home-copy h1 {
+    font-size: 34px;
+  }
+
+  .home-visual {
+    min-height: 340px;
+    padding: 18px;
   }
 
   .left-sidebar {

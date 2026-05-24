@@ -4,11 +4,9 @@ import { ref } from "vue";
 
 import api from "../services/api";
 
-import { useAuthStore }
-from "../stores/auth";
+import { useAuthStore } from "../stores/auth";
 
-import { useRouter }
-from "vue-router";
+import { useRouter } from "vue-router";
 
 const email = ref("");
 
@@ -50,7 +48,7 @@ const login = async () => {
 
     } catch (error) {
 
-        alert("Login failed");
+        alert("Đăng nhập thất bại");
     }
 };
 
@@ -60,7 +58,7 @@ const login = async () => {
 
     <div>
 
-        <h1>Login</h1>
+        <h1>Đăng nhập</h1>
 
         <input
             v-model="email"
@@ -72,7 +70,7 @@ const login = async () => {
         <input
             v-model="password"
             type="password"
-            placeholder="Password"
+            placeholder="Mật khẩu"
         />
 
         <br /><br />
@@ -85,7 +83,7 @@ const login = async () => {
             />
 
             <span>
-                Remember me
+                Ghi nhớ đăng nhập
             </span>
 
         </label>
@@ -94,7 +92,7 @@ const login = async () => {
 
         <button @click="login">
 
-            Login
+            Đăng nhập
 
         </button>
 

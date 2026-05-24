@@ -243,7 +243,7 @@ const loadExam = async () => {
 
         console.log(error);
 
-        alert("Load exam failed");
+        alert("Tải đề thi thất bại");
     }
 };
 
@@ -342,7 +342,7 @@ const submitExam = async () => {
 
         console.log(error);
 
-        alert("Submit failed");
+        alert("Nộp bài thất bại");
 
         isSubmitting.value = false;
     }

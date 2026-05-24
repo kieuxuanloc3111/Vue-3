@@ -1,61 +1,52 @@
 <script setup>
-
-import { ref, onMounted }
-from "vue";
-
-import api
-from "../services/api";
-import { useRouter }
-from "vue-router";
-import { useAuthStore }
-from "../stores/auth";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import api from "../services/api";
+import { useAuthStore } from "../stores/auth";
 
 const exams = ref([]);
 const router = useRouter();
 const authStore = useAuthStore();
 
 const startExam = (id) => {
-
     router.push(`/exams/${id}`);
 };
+
 const loadExams = async () => {
-
     try {
-
-        const response =
-            await api.get(
-                "/student/exams",
-                {
-                    headers: {
-                        Authorization:
-                            `Bearer ${authStore.token}`,
-                    },
-                }
-            );
+        const response = await api.get(
+            "/student/exams",
+            {
+                headers: {
+                    Authorization:
+                        `Bearer ${authStore.token}`,
+                },
+            }
+        );
 
         exams.value =
             response.data.data;
-
     } catch (error) {
-
         console.log(error);
-
-        alert("Load exams failed");
+        alert("Tải danh sách đề thi thất bại");
     }
 };
 
 onMounted(() => {
-
     loadExams();
 });
-
 </script>
 
 <template>
-
     <div>
-
         <h1>Danh sách đề thi</h1>
+
+        <div
+            v-if="exams.length === 0"
+            class="empty-state"
+        >
+            Chưa có đề thi nào.
+        </div>
 
         <div
             v-for="exam in exams"
@@ -66,32 +57,24 @@ onMounted(() => {
                 margin-bottom:20px;
             "
         >
-
             <h2>
                 {{ exam.title }}
             </h2>
 
             <p>
-                Môn:
-                {{ exam.subject.name }}
+                <strong>Môn:</strong>
+                {{ exam.subject?.name || "Chưa có môn học" }}
             </p>
 
             <p>
-                Thời gian:
+                <strong>Thời gian:</strong>
                 {{ exam.duration_minutes }}
                 phút
             </p>
 
-            <button
-                @click="startExam(exam.id)"
-            >
-
+            <button @click="startExam(exam.id)">
                 Bắt đầu thi
-
             </button>
-
         </div>
-
     </div>
-
 </template>
