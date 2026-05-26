@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref,computed } from "vue";
 import { useRouter } from "vue-router";
 import api from "../services/api";
 import { useAuthStore } from "../stores/auth";
@@ -8,7 +8,9 @@ const router = useRouter();
 const authStore = useAuthStore();
 
 const histories = ref([]);
+const selectedSubject = ref("");
 
+const selectedDate = ref("");
 const getExamTitle = (history) => {
     return history.exam_title || history.exam?.title || "Chưa có tên đề thi";
 };
@@ -24,7 +26,93 @@ const getStatus = (history) => {
 
     return history.status || "Chưa có trạng thái";
 };
+const subjects = computed(() => {
 
+    const uniqueSubjects = [];
+
+    histories.value.forEach((history) => {
+
+        const subjectName =
+            getSubjectName(history);
+
+        const exists =
+            uniqueSubjects.find(
+                item => item === subjectName
+            );
+
+        if (!exists) {
+
+            uniqueSubjects.push(
+                subjectName
+            );
+        }
+    });
+
+    return uniqueSubjects;
+});
+const filteredHistories = computed(() => {
+
+    return histories.value.filter(
+        (history) => {
+
+            /*
+            |--------------------------------------------------------------------------
+            | FILTER SUBJECT
+            |--------------------------------------------------------------------------
+            */
+
+            const subjectMatch =
+
+                !selectedSubject.value ||
+
+                getSubjectName(history)
+                    === selectedSubject.value;
+
+            /*
+            |--------------------------------------------------------------------------
+            | FILTER DATE
+            |--------------------------------------------------------------------------
+            */
+
+            let dateMatch = true;
+
+            if (selectedDate.value) {
+
+                const historyDate =
+                    new Date(
+                        normalizeApiDate(
+                            history.submitted_at
+                        )
+                    );
+
+                const yyyy =
+                    historyDate.getFullYear();
+
+                const mm =
+                    String(
+                        historyDate.getMonth() + 1
+                    ).padStart(2, "0");
+
+                const dd =
+                    String(
+                        historyDate.getDate()
+                    ).padStart(2, "0");
+
+                const formattedDate =
+                    `${yyyy}-${mm}-${dd}`;
+
+                dateMatch =
+                    formattedDate
+                    === selectedDate.value;
+            }
+
+            return (
+                subjectMatch &&
+                dateMatch
+            );
+        }
+    );
+});
 const normalizeApiDate = (date) => {
     if (typeof date !== "string") {
         return date;
@@ -90,7 +178,47 @@ onMounted(() => {
         <h1>
             Lịch sử làm bài
         </h1>
+        <div class="filter-box">
 
+            <div class="filter-group">
+
+                <label>
+                    Môn học
+                </label>
+
+                <select
+                    v-model="selectedSubject"
+                >
+                    <option value="">
+                        Tất cả môn học
+                    </option>
+
+                    <option
+                        v-for="subject in subjects"
+                        :key="subject"
+                        :value="subject"
+                    >
+                        {{ subject }}
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="filter-group">
+
+                <label>
+                    Ngày thi
+                </label>
+
+                <input
+                    type="date"
+                    v-model="selectedDate"
+                />
+
+            </div>
+
+        </div>
         <div
             v-if="histories.length === 0"
             class="empty-state"
@@ -99,7 +227,7 @@ onMounted(() => {
         </div>
 
         <div
-            v-for="history in histories"
+            v-for="history in filteredHistories"
             :key="
                 history.student_exam_id ||
                 history.id
